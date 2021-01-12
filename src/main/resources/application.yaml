@@ -1,0 +1,14 @@
+
+spring:
+  datasource:
+    druid:
+      username: root
+      password: aA982244
+      url: jdbc:mysql://localhost:3306/qualityspotcheck?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8
+      driver-class-name: com.mysql.cj.jdbc.Driver
+server:
+  port: 8081
+  servlet:
+    context-path: /quality/v1
+    session:
+      timeout: 6000
