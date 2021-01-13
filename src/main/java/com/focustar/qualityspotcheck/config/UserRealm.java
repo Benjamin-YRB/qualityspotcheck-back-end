@@ -52,10 +52,19 @@ public class UserRealm extends AuthorizingRealm {
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
         SysUser user = userService.getUserByLoginName(token.getUsername());
 
+        //用户不存在
         if (user == null){
-            return null;
+
+            throw new AuthenticationException();
         }
 
-        return new SimpleAuthenticationInfo(user,user.getPassword(), ByteSource.Util.bytes(""),user.getName());
+        return new SimpleAuthenticationInfo(user,user.getPassword(), ByteSource.Util.bytes(user.getSalt().toString()),user.getName());
+//        SysUser user = new SysUser();
+//        user.setPassword("123456");
+//        user.setSalt(1);
+//        user.setName("yang");
+//        user.setLoginName("123456");
+//        return new SimpleAuthenticationInfo(user,user.getPassword(), ByteSource.Util.bytes(user.getSalt()),user.getName());
+
     }
 }

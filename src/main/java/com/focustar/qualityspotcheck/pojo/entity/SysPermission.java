@@ -11,7 +11,7 @@ public class SysPermission {
     private Integer id;
     private Integer parentId;
     private String title;
-    private String permissionIndex;
+    private String index;
     private String icon;
     private String resType;
     private Integer createBy;
@@ -20,15 +20,6 @@ public class SysPermission {
     private LocalDateTime updateTime;
     private String remarks;
     private boolean delFlag;
-    private Integer salt;
-
-    public Integer getSalt() {
-        return salt;
-    }
-
-    public void setSalt(Integer salt) {
-        this.salt = salt;
-    }
 
     @Override
     public String toString() {
@@ -36,7 +27,7 @@ public class SysPermission {
                 "id=" + id +
                 ", parentId=" + parentId +
                 ", title='" + title + '\'' +
-                ", permissionIndex='" + permissionIndex + '\'' +
+                ", index='" + index + '\'' +
                 ", icon='" + icon + '\'' +
                 ", resType='" + resType + '\'' +
                 ", createBy=" + createBy +
@@ -45,7 +36,6 @@ public class SysPermission {
                 ", updateTime=" + updateTime +
                 ", remarks='" + remarks + '\'' +
                 ", delFlag=" + delFlag +
-                ", salt=" + salt +
                 '}';
     }
 
@@ -73,12 +63,12 @@ public class SysPermission {
         this.title = title;
     }
 
-    public String getPermissionIndex() {
-        return permissionIndex;
+    public String getIndex() {
+        return index;
     }
 
-    public void setPermissionIndex(String permissionIndex) {
-        this.permissionIndex = permissionIndex;
+    public void setIndex(String index) {
+        this.index = index;
     }
 
     public String getIcon() {

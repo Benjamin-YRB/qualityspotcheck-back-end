@@ -32,7 +32,7 @@ public class ShiroConfig {
      * @return
      */
     @Bean
-    public SecurityManager getSecurityManager(){
+    public SecurityManager securityManager(){
         DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
         manager.setRealm(getUserRealm());
 
@@ -43,6 +43,7 @@ public class ShiroConfig {
      * 过滤规则
      * @return
      */
+    @Bean
     public SessionManager sessionManager(){
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         sessionManager.setSessionValidationSchedulerEnabled(true);
@@ -50,11 +51,12 @@ public class ShiroConfig {
         return sessionManager;
     }
 
-    public ShiroFilterFactoryBean shiroFilter(DefaultWebSecurityManager securityManager){
+    @Bean
+    public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager){
+
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 
-
-        shiroFilterFactoryBean.setSecurityManager(getSecurityManager());
+        shiroFilterFactoryBean.setSecurityManager(securityManager);
 
         Map<String,String> filterChainDefinitionMap = new LinkedHashMap<>();
 

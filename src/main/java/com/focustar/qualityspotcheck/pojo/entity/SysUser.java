@@ -26,6 +26,7 @@ public class SysUser {
     private boolean delFlag;
     private String wechatNum;
     private String qqNum;
+    private Integer salt;
 
     @Override
     public String toString() {
@@ -47,7 +48,16 @@ public class SysUser {
                 ", delFlag=" + delFlag +
                 ", wechatNum='" + wechatNum + '\'' +
                 ", qqNum='" + qqNum + '\'' +
+                ", salt=" + salt +
                 '}';
+    }
+
+    public Integer getSalt() {
+        return salt;
+    }
+
+    public void setSalt(Integer salt) {
+        this.salt = salt;
     }
 
     public Integer getId() {
