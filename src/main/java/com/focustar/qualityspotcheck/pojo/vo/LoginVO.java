@@ -1,10 +1,10 @@
 package com.focustar.qualityspotcheck.pojo.vo;
 
-import com.focustar.qualityspotcheck.pojo.entity.SysPermission;
 import com.focustar.qualityspotcheck.pojo.entity.SysRole;
 import com.focustar.qualityspotcheck.pojo.entity.SysUser;
 
 import java.util.List;
+
 
 /**
  * @Author yangxiansheng
@@ -12,17 +12,28 @@ import java.util.List;
  * description: 登陆成功视图渲染对象
  */
 public class LoginVO {
+
     private SysUser user;
     private SysRole role;
-    private List<SysPermission> permissions;
+
+    //动态菜单路由
+    private List<PermissionVO> item;
 
     @Override
     public String toString() {
         return "LoginVO{" +
                 "user=" + user +
                 ", role=" + role +
-                ", permissions=" + permissions +
+                ", item=" + item +
                 '}';
+    }
+
+    public List<PermissionVO> getItem() {
+        return item;
+    }
+
+    public void setItem(List<PermissionVO> item) {
+        this.item = item;
     }
 
     public SysUser getUser() {
@@ -41,11 +52,4 @@ public class LoginVO {
         this.role = role;
     }
 
-    public List<SysPermission> getPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(List<SysPermission> permissions) {
-        this.permissions = permissions;
-    }
 }

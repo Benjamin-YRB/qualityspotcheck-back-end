@@ -18,6 +18,21 @@
         <result property="remarks" column="remarks"/>
         <result property="delFlag" column="del_flag"/>
     </resultMap>
+    
+    <resultMap id="twiceLevelPermissionTree" type="com.focustar.qualityspotcheck.pojo.vo.PermissionVO">
+        <id property="id" column="id"/>
+        <result property="title" column="title" />
+        <result property="index" column="permission_index"/>
+        <result property="icon" column="icon"/>
+        <result property="resType" column="res_type"/>
+        <collection property="subs" ofType="com.focustar.qualityspotcheck.pojo.vo.PermissionVO">
+            <id property="id" column="id2"/>
+            <result property="title" column="title2"/>
+            <result property="index" column="permission_index2"/>
+            <result property="icon" column="icon2"/>
+            <result property="resType" column="res_type2"/>
+        </collection>
+    </resultMap>
 
     <sql id="baseColumn">
         p.id,
@@ -56,6 +71,33 @@
 	    and r.del_flag = 0
 	    and ur.del_flag = 0
 	    and u.del_flag = 0
+    </select>
+    
+    <select id="getPermissionTreeByUserId" resultMap="twiceLevelPermissionTree">
+        select
+        p1.id,
+        p1.title,
+        p1.permission_index,
+        p1.icon,
+        p1.res_type,
+        p2.id as id2,
+        p2.title as title2,
+        p2.permission_index as permission_index2,
+        p2.icon as icon2,
+        p2.res_type as res_type2
+        from sys_permission p1
+        inner join sys_permission p2 on p1.id = p2.parent_id
+        inner join sys_role_permission rp on p1.id = rp.permission_id
+        inner join sys_role r on rp.role_id = r.id
+        inner join sys_user_role ur on ur.role_id = r.id
+        inner join sys_user u on ur.user_id = u.id
+        where u.id = #{userId}
+        and p1.del_flag = 0
+        and rp.del_flag = 0
+        and r.del_flag = 0
+        and ur.del_flag = 0
+        and u.del_flag = 0
+        and p2.del_flag = 0
     </select>
 
 </mapper>
