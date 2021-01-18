@@ -2,35 +2,51 @@ package com.focustar.qualityspotcheck.controller;
 
 import com.focustar.qualityspotcheck.commom.enums.LoginCode;
 import com.focustar.qualityspotcheck.commom.resp.Response;
+import com.focustar.qualityspotcheck.commom.util.RedisUtil;
 import com.focustar.qualityspotcheck.controller.base.BaseController;
 import com.focustar.qualityspotcheck.pojo.req.LoginReq;
 import com.focustar.qualityspotcheck.pojo.vo.LoginVO;
 import com.focustar.qualityspotcheck.service.UserService;
+import net.sf.jsqlparser.statement.select.KSQLJoinWindow;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
 /**
- * @Author yangxiansheng
- * @Since 2021/1/12
+ * @Author: yangxiansheng
+ * @Since: 2021/1/12
  * description:
  */
 @RestController
 @CrossOrigin
 public class LoginController extends BaseController {
 
+    public static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+
     @Autowired
     UserService userService;
 
+    @Autowired
+    RedisTemplate redisTemplate;
+
     @PostMapping("/login")
     public Response<LoginVO> login(@RequestBody LoginReq loginReq/*@RequestParam("username") String loginName, @RequestParam("password") String password*/){
-        System.out.println(loginReq);
+
+        logger.info(loginReq.getLoginName());
+
         Subject currentUser = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(loginReq.getLoginName(),loginReq.getPassword());
-
+        System.out.println(currentUser.getPrincipal());
+        System.out.println(currentUser.getPrincipals());
         try {
             currentUser.login(token);
         } catch (AuthenticationException e) {
@@ -38,6 +54,12 @@ public class LoginController extends BaseController {
         }
 
         LoginVO loginVO = userService.loginSuccessResult(loginReq.getLoginName());
+
+        UUID loginToken = UUID.randomUUID();
+        loginVO.setToken(loginToken.toString());
+        RedisUtil.setRedis(redisTemplate,RedisUtil.LOGIN_TOKEN_KEY+loginToken,loginVO,RedisUtil.LOGIN_TOKEN_ALIVE_TIME, TimeUnit.DAYS);
+        logger.info("缓存当前登陆用户信息成功");
+        logger.info("登陆成功，"+loginVO.getUser().getName());
 
         return new Response<>(loginVO, LoginCode.LOGIN_SUCCESS);
     }

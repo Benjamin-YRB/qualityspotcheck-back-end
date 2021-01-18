@@ -45,7 +45,7 @@ public class UserServiceImpl  implements UserService {
 
         //组装对象
         loginVO.setUser(user);
-        loginVO.setRole(roleMapper.getRoleByUserId(user.getId()));
+        loginVO.setRoles(roleMapper.getRolesByUserId(user.getId()));
         loginVO.setItem(permissionMapper.getPermissionTreeByUserId(user.getId()));
 
         return loginVO;

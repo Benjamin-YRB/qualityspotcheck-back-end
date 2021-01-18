@@ -12,20 +12,40 @@ import java.util.List;
  * description: 登陆成功视图渲染对象
  */
 public class LoginVO {
-
+    /**
+     * 用户信息
+     */
     private SysUser user;
-    private SysRole role;
+    /**
+     * 角色
+     */
+    private List<SysRole> roles;
 
-    //动态菜单路由
+    /**
+     * 登陆token
+     */
+    private String token;
+    /**
+     * 动态菜单路由
+     */
     private List<PermissionVO> item;
 
     @Override
     public String toString() {
         return "LoginVO{" +
                 "user=" + user +
-                ", role=" + role +
+                ", role=" + roles +
+                ", token='" + token + '\'' +
                 ", item=" + item +
                 '}';
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public List<PermissionVO> getItem() {
@@ -44,12 +64,11 @@ public class LoginVO {
         this.user = user;
     }
 
-    public SysRole getRole() {
-        return role;
+    public List<SysRole> getRoles() {
+        return roles;
     }
 
-    public void setRole(SysRole role) {
-        this.role = role;
+    public void setRoles(List<SysRole> roles) {
+        this.roles = roles;
     }
-
 }

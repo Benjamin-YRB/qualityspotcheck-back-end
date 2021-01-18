@@ -31,6 +31,12 @@ public class Response<T> {
         this.msg = msg;
     }
 
+    public Response(T data,IRespCode result){
+        this.data = data;
+        this.msg = result.getMsg();
+        this.code = result.getCode();
+    }
+
     public void fail(T data , String code , String msg){
         this.code = code;
         this.data = data;
