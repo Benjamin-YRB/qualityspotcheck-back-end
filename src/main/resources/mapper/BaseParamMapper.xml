@@ -9,5 +9,8 @@
         where del_flag = 0
     </select>
 
+    <update id="updateStatus">
+        update base_param set status = #{status} where id = #{id}
+    </update>
 
 </mapper>

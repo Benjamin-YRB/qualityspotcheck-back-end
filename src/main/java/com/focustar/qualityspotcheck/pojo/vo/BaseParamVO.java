@@ -10,18 +10,7 @@ public class BaseParamVO {
     private String name;
     private String type;
     private String unit;
-    private Character status;
-
-    @Override
-    public String toString() {
-        return "BaseParamsVO{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", unit='" + unit + '\'' +
-                ", status=" + status +
-                '}';
-    }
+    private boolean status;
 
     public Integer getId() {
         return id;
@@ -55,11 +44,22 @@ public class BaseParamVO {
         this.unit = unit;
     }
 
-    public Character getStatus() {
+    @Override
+    public String toString() {
+        return "BaseParamVO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", unit='" + unit + '\'' +
+                ", status=" + status +
+                '}';
+    }
+
+    public boolean isStatus() {
         return status;
     }
 
-    public void setStatus(Character status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 }

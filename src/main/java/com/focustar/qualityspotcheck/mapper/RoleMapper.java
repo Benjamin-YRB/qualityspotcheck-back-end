@@ -2,6 +2,7 @@ package com.focustar.qualityspotcheck.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.focustar.qualityspotcheck.pojo.entity.SysRole;
+import com.focustar.qualityspotcheck.pojo.vo.RoleVO;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * description:
  */
 public interface RoleMapper extends BaseMapper<SysRole> {
-    List<SysRole> getRolesByUserId(Integer userId);
+    List<RoleVO> getRolesByUserId(Integer userId);
 
     List<String> getRoleNamesByUserId(Integer userId);
 

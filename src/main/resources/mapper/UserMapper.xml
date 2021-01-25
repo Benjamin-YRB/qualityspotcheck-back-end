@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.focustar.qualityspotcheck.mapper.UserMapper">
+
+    <sql id="baseColumn">
+        u.id,
+        u.company_id,
+        u.login_name,
+        u.password,
+        u.name,
+        u.email,
+        u.phone,
+        u.mobile,
+        u.photo,
+        u.create_by,
+        u.create_time,
+        u.update_by,
+        u.update_time,
+        u.remarks,
+        u.del_flag,
+        u.wechat_num,
+        u.qq_num,
+        u.salt
+    </sql>
+
+    <select id="getUserVOByLoginName" resultType="com.focustar.qualityspotcheck.pojo.vo.UserVO">
+        select id,name,email,phone,mobile,photo from sys_user where login_name = #{loginName} and del_flag = 0
+    </select>
+
+    <select id="getSysUserByLoginName" resultType="com.focustar.qualityspotcheck.pojo.entity.SysUser">
+        select
+        <include refid="baseColumn"/>
+        from sys_user u
+        where u.login_name = #{loginName}
+        and u.del_flag = 0
+    </select>
+</mapper>

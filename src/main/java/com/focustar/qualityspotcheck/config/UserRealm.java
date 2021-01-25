@@ -1,6 +1,7 @@
 package com.focustar.qualityspotcheck.config;
 
 import com.focustar.qualityspotcheck.pojo.entity.SysUser;
+import com.focustar.qualityspotcheck.pojo.vo.UserVO;
 import com.focustar.qualityspotcheck.service.PermissionService;
 import com.focustar.qualityspotcheck.service.RoleService;
 import com.focustar.qualityspotcheck.service.UserService;
@@ -58,7 +59,7 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
-        SysUser user = userService.getUserByLoginName(token.getUsername());
+        SysUser user = userService.getSysUserByLoginName(token.getUsername());
 
         logger.info("开始认证");
 

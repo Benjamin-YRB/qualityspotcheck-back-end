@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -39,14 +40,12 @@ public class LoginController extends BaseController {
     RedisTemplate redisTemplate;
 
     @PostMapping("/login")
-    public Response<LoginVO> login(@RequestBody LoginReq loginReq/*@RequestParam("username") String loginName, @RequestParam("password") String password*/){
+    public Response<LoginVO> login(@RequestBody @Valid LoginReq loginReq/*@RequestParam("username") String loginName, @RequestParam("password") String password*/){
 
         logger.info(loginReq.getLoginName());
 
         Subject currentUser = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(loginReq.getLoginName(),loginReq.getPassword());
-        System.out.println(currentUser.getPrincipal());
-        System.out.println(currentUser.getPrincipals());
         try {
             currentUser.login(token);
         } catch (AuthenticationException e) {
@@ -55,10 +54,12 @@ public class LoginController extends BaseController {
 
         LoginVO loginVO = userService.loginSuccessResult(loginReq.getLoginName());
 
-        UUID loginToken = UUID.randomUUID();
-        loginVO.setToken(loginToken.toString());
-        RedisUtil.setRedis(redisTemplate,RedisUtil.LOGIN_TOKEN_KEY+loginToken,loginVO,RedisUtil.LOGIN_TOKEN_ALIVE_TIME, TimeUnit.DAYS);
-        logger.info("缓存当前登陆用户信息成功");
+
+        loginVO.setToken(UUID.randomUUID().toString());
+
+        RedisUtil.setRedis(redisTemplate,RedisUtil.LOGIN_TOKEN_KEY+loginVO.getToken(),loginVO,RedisUtil.LOGIN_TOKEN_ALIVE_TIME, TimeUnit.DAYS);
+
+        logger.info("缓存当前登陆用户信息成功:"+loginVO);
         logger.info("登陆成功，"+loginVO.getUser().getName());
 
         return new Response<>(loginVO, LoginCode.LOGIN_SUCCESS);

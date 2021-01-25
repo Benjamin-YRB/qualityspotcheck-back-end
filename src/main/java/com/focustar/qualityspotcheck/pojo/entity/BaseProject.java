@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 public class BaseProject {
     private Integer id;
     private String name;
-    private String type;
     private Integer level;
     private Integer score;
     private Integer parentId;
@@ -26,7 +25,6 @@ public class BaseProject {
         return "BaseProject{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", type='" + type + '\'' +
                 ", level=" + level +
                 ", score=" + score +
                 ", parentId=" + parentId +
@@ -53,14 +51,6 @@ public class BaseProject {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public Integer getLevel() {

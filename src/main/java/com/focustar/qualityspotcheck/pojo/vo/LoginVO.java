@@ -15,11 +15,11 @@ public class LoginVO {
     /**
      * 用户信息
      */
-    private SysUser user;
+    private UserVO user;
     /**
      * 角色
      */
-    private List<SysRole> roles;
+    private List<RoleVO> roles;
 
     /**
      * 登陆token
@@ -34,10 +34,26 @@ public class LoginVO {
     public String toString() {
         return "LoginVO{" +
                 "user=" + user +
-                ", role=" + roles +
+                ", roles=" + roles +
                 ", token='" + token + '\'' +
                 ", item=" + item +
                 '}';
+    }
+
+    public UserVO getUser() {
+        return user;
+    }
+
+    public void setUser(UserVO user) {
+        this.user = user;
+    }
+
+    public List<RoleVO> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<RoleVO> roles) {
+        this.roles = roles;
     }
 
     public String getToken() {
@@ -54,21 +70,5 @@ public class LoginVO {
 
     public void setItem(List<PermissionVO> item) {
         this.item = item;
-    }
-
-    public SysUser getUser() {
-        return user;
-    }
-
-    public void setUser(SysUser user) {
-        this.user = user;
-    }
-
-    public List<SysRole> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<SysRole> roles) {
-        this.roles = roles;
     }
 }

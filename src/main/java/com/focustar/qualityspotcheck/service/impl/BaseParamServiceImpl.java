@@ -28,4 +28,9 @@ public class BaseParamServiceImpl implements BaseParamService {
     public List<BaseParamVO> getAllBaseParams() {
         return baseParamMapper.getAllBaseParamVO();
     }
+
+    @Override
+    public boolean updateBaseParam(Integer paramId, boolean status) {
+        return baseParamMapper.updateStatus(paramId,status);
+    }
 }

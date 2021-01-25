@@ -13,4 +13,5 @@ public interface BaseParamService {
 
     List<BaseParamVO> getAllBaseParams();
 
+    boolean updateBaseParam(Integer paramId,boolean status);
 }

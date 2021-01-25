@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * @Author: yangxiansheng
  * @Since: 2021/1/16
- * description:
+ * description: SpringMVC配置类
  */
 @Configuration
 public class WebappConfig extends WebMvcConfigurationSupport {

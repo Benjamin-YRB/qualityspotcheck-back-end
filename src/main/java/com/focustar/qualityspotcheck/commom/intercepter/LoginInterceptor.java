@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @Author: yangxiansheng
  * @Since: 2021/1/16
- * description:
+ * description: 登录token拦截器
  */
 @Component
 public class LoginInterceptor implements HandlerInterceptor {
@@ -39,13 +39,13 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getHeader("token");
-        logger.info("开始校验token："+token);
-        System.out.println(request.getRequestURI());
+        logger.info("开始校验token："+token+",请求路径为"+request.getRequestURI());
         if (token == null){
             throw new TokenException("token不存在，请先登陆!");
         }
 
         LoginVO loginVO = (LoginVO) RedisUtil.getRedis(redisTemplate, RedisUtil.LOGIN_TOKEN_KEY+token);
+
         if (loginVO == null){
             throw new TokenException("token已过期，请重新登陆!");
         }

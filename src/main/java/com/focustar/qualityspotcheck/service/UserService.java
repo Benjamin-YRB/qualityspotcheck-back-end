@@ -2,6 +2,7 @@ package com.focustar.qualityspotcheck.service;
 
 import com.focustar.qualityspotcheck.pojo.entity.SysUser;
 import com.focustar.qualityspotcheck.pojo.vo.LoginVO;
+import com.focustar.qualityspotcheck.pojo.vo.UserVO;
 
 /**
  * @Author yangxiansheng
@@ -9,7 +10,9 @@ import com.focustar.qualityspotcheck.pojo.vo.LoginVO;
  * description:
  */
 public interface UserService {
-    SysUser getUserByLoginName(String loginName);
+    UserVO getUserByLoginName(String loginName);
+
+    SysUser getSysUserByLoginName(String loginName);
 
     LoginVO loginSuccessResult(String loginName);
 }

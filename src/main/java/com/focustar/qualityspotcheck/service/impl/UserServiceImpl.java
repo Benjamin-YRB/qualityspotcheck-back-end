@@ -6,6 +6,7 @@ import com.focustar.qualityspotcheck.mapper.RoleMapper;
 import com.focustar.qualityspotcheck.mapper.UserMapper;
 import com.focustar.qualityspotcheck.pojo.entity.SysUser;
 import com.focustar.qualityspotcheck.pojo.vo.LoginVO;
+import com.focustar.qualityspotcheck.pojo.vo.UserVO;
 import com.focustar.qualityspotcheck.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,20 +29,20 @@ public class UserServiceImpl  implements UserService {
     PermissionMapper permissionMapper;
 
     @Override
-    public SysUser getUserByLoginName(String loginName) {
-        return userMapper.selectOne(
-                new QueryWrapper<SysUser>()
-//                .select("id","login_name","password","name","email","phone","user_type")
-                .eq("login_name",loginName)
-                .eq("del_flag",0)
-        );
+    public UserVO getUserByLoginName(String loginName) {
+        return userMapper.getUserVOByLoginName(loginName);
+    }
+
+    @Override
+    public SysUser getSysUserByLoginName(String loginName) {
+        return userMapper.getSysUserByLoginName(loginName);
     }
 
     @Override
     public LoginVO loginSuccessResult(String loginName) {
         LoginVO loginVO = new LoginVO();
 
-        SysUser user = getUserByLoginName(loginName);
+        UserVO user = getUserByLoginName(loginName);
 
         //组装对象
         loginVO.setUser(user);
