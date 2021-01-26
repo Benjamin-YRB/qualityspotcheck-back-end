@@ -44,9 +44,11 @@ public class UserRealm extends AuthorizingRealm {
         logger.info("开始授权："+user.getName());
 
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        List<String> roles = roleService.getRoleNamesByUserId(user.getId());
 
-        info.addRoles(roleService.getRoleNamesByUserId(user.getId()));
+        info.addRoles(roles);
 
+        logger.info("当前登录用户拥有角色"+roles);
         return info;
     }
 
@@ -65,10 +67,10 @@ public class UserRealm extends AuthorizingRealm {
 
         //用户不存在
         if (user == null){
-
+            logger.info("认证失败");
             throw new AuthenticationException();
         }
-
+        logger.info("认证成功");
         return new SimpleAuthenticationInfo(user,user.getPassword(), ByteSource.Util.bytes(user.getSalt().toString()),user.getName());
 
     }

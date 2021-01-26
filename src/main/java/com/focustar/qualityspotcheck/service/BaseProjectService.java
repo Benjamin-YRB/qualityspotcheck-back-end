@@ -1,8 +1,8 @@
 package com.focustar.qualityspotcheck.service;
 
-import com.focustar.qualityspotcheck.pojo.req.AddBaseProjectReq;
+import com.focustar.qualityspotcheck.pojo.req.AddProjectReq;
+import com.focustar.qualityspotcheck.pojo.req.UpdateProjectReq;
 import com.focustar.qualityspotcheck.pojo.vo.BaseProjectVO;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,5 +14,9 @@ import java.util.List;
 public interface BaseProjectService {
     List<BaseProjectVO> getAllBaseProjects();
 
-    boolean addProject( Integer userId, AddBaseProjectReq req);
+    boolean addProject( Integer userId, AddProjectReq req);
+
+    boolean deleteProject(Integer userId, Integer id);
+
+    boolean updateProject(Integer userId, UpdateProjectReq req);
 }

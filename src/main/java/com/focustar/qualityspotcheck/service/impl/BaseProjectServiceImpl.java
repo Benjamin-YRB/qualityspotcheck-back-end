@@ -2,7 +2,8 @@ package com.focustar.qualityspotcheck.service.impl;
 
 import com.focustar.qualityspotcheck.mapper.BaseProjectMapper;
 import com.focustar.qualityspotcheck.pojo.entity.BaseProject;
-import com.focustar.qualityspotcheck.pojo.req.AddBaseProjectReq;
+import com.focustar.qualityspotcheck.pojo.req.AddProjectReq;
+import com.focustar.qualityspotcheck.pojo.req.UpdateProjectReq;
 import com.focustar.qualityspotcheck.pojo.vo.BaseProjectVO;
 import com.focustar.qualityspotcheck.service.BaseProjectService;
 import org.slf4j.Logger;
@@ -31,7 +32,7 @@ public class BaseProjectServiceImpl implements BaseProjectService {
     }
 
     @Override
-    public boolean addProject(Integer userId,AddBaseProjectReq req) {
+    public boolean addProject(Integer userId, AddProjectReq req) {
         BaseProject p = new BaseProject();
 
         BeanUtils.copyProperties(req,p);
@@ -42,5 +43,21 @@ public class BaseProjectServiceImpl implements BaseProjectService {
 
         logger.info("构建新增基础项对象完成"+p);
         return baseProjectMapper.insert(p) > 0;
+    }
+
+    @Override
+    public boolean deleteProject(Integer userId, Integer id) {
+        return baseProjectMapper.deleteProject(userId,id);
+    }
+
+    @Override
+    public boolean updateProject(Integer userId, UpdateProjectReq req) {
+        BaseProject p = new BaseProject();
+        BeanUtils.copyProperties(req,p);
+
+        p.setUpdateBy(userId);
+        p.setUpdateTime(LocalDateTime.now());
+
+        return baseProjectMapper.updateById(p) > 0;
     }
 }

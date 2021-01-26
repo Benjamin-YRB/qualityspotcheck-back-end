@@ -27,8 +27,14 @@
         and del_flag = 0
     </select>
 
-    <insert id="addProject" parameterType="com.focustar.qualityspotcheck.pojo.req.AddBaseProjectReq">
+    <insert id="addProject" parameterType="com.focustar.qualityspotcheck.pojo.req.AddProjectReq">
         insert into base_project
         values(null,#{req.name},#{req.level},#{req.score},#{req.parentId},#{userId},now(),#{userId},now(),'',0)
     </insert>
+
+    <update id="deleteProject" >
+        update base_project
+        set  del_flag = 1 ,update_by = #{userId} ,update_time = now()
+        where id = #{projectId}
+    </update>
 </mapper>

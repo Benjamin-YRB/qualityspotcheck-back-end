@@ -8,35 +8,34 @@ import javax.validation.constraints.NotNull;
  * @Since: 2021/1/26
  * description:
  */
-public class AddBaseProjectReq {
-    @NotNull(message = "父级id不可为空")
-    private Integer parentId;
+public class UpdateProjectReq {
+    @NotNull(message = "更新项目的id不可为空")
+    private Integer id;
 
-    @NotBlank(message = "名称不可为空")
+    @NotBlank(message = "更新项目的name不可为空")
     private String name;
 
-    @NotNull(message = "级别不可为空")
     private Integer level;
 
-    @NotNull(message = "分数不可为空")
+    @NotNull(message = "更新项目的score不可为空")
     private Integer score;
 
     @Override
     public String toString() {
-        return "AddBaseProjectReq{" +
-                "parentId=" + parentId +
+        return "UpdateProjectReq{" +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", level=" + level +
                 ", score=" + score +
                 '}';
     }
 
-    public Integer getParentId() {
-        return parentId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setParentId(Integer parentId) {
-        this.parentId = parentId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {

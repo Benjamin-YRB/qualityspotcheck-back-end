@@ -5,7 +5,8 @@ import com.focustar.qualityspotcheck.commom.resp.Response;
 import com.focustar.qualityspotcheck.commom.util.RedisUtil;
 import com.focustar.qualityspotcheck.controller.base.BaseController;
 import com.focustar.qualityspotcheck.pojo.entity.BaseProject;
-import com.focustar.qualityspotcheck.pojo.req.AddBaseProjectReq;
+import com.focustar.qualityspotcheck.pojo.req.AddProjectReq;
+import com.focustar.qualityspotcheck.pojo.req.UpdateProjectReq;
 import com.focustar.qualityspotcheck.pojo.vo.BaseProjectVO;
 import com.focustar.qualityspotcheck.pojo.vo.LoginVO;
 import com.focustar.qualityspotcheck.service.BaseProjectService;
@@ -15,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -45,14 +45,29 @@ public class BaseProjectController extends BaseController {
 
 
     @PostMapping("/baseProject")
-    public Response<Boolean> addBaseProject(@RequestBody @Valid AddBaseProjectReq req){
+    public Response<Boolean> addBaseProject(@RequestBody @Valid AddProjectReq req){
         logger.info("开始添加基础项");
 
-        String token = request.getHeader("token");
-
-        LoginVO loginVO = (LoginVO) RedisUtil.getRedis(redisTemplate, RedisUtil.LOGIN_TOKEN_KEY + token);
+        LoginVO loginVO = (LoginVO) RedisUtil.getRedis(redisTemplate, RedisUtil.LOGIN_TOKEN_KEY + request.getHeader("token"));
 
         return new Response<>(baseProjectService.addProject(loginVO.getUser().getId(),req),RespCode.SUCCESS);
     }
 
+    @PutMapping("/baseProject")
+    public Response<Boolean> updateBaseProject(@RequestBody @Valid UpdateProjectReq req){
+        logger.info("更新id为"+req.getId()+"的基础项"+req);
+
+        LoginVO loginVO = (LoginVO) RedisUtil.getRedis(redisTemplate, RedisUtil.LOGIN_TOKEN_KEY + request.getHeader("token"));
+
+        return new Response<>(baseProjectService.updateProject(loginVO.getUser().getId(),req),RespCode.SUCCESS);
+    }
+
+    @DeleteMapping("/baseProject/{id}")
+    public Response<Boolean> deleteBaseProject(@PathVariable Integer id){
+        logger.info("删除id为"+id+"的基础项");
+
+        LoginVO loginVO = (LoginVO) RedisUtil.getRedis(redisTemplate, RedisUtil.LOGIN_TOKEN_KEY + request.getHeader("token"));
+
+        return new Response<>(baseProjectService.deleteProject(loginVO.getUser().getId(),id),RespCode.SUCCESS);
+    }
 }
