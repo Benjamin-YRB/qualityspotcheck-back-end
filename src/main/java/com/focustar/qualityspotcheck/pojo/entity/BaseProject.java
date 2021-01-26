@@ -1,5 +1,8 @@
 package com.focustar.qualityspotcheck.pojo.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.time.LocalDateTime;
 
 /**
@@ -8,6 +11,8 @@ import java.time.LocalDateTime;
  * description:
  */
 public class BaseProject {
+
+    @TableId(value = "id",type = IdType.AUTO)
     private Integer id;
     private String name;
     private Integer level;

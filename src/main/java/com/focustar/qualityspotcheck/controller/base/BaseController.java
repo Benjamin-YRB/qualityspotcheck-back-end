@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
  * description:
  */
 public class BaseController {
+
     @Autowired
-    HttpServletRequest request;
+    protected HttpServletRequest request;
+
 }
