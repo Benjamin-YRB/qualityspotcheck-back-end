@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
  */
 public class SysUser {
     private Integer id;
-    private Integer companyId;
     private String loginName;
     private String password;
     private String name;
@@ -28,11 +27,26 @@ public class SysUser {
     private String qqNum;
     private Integer salt;
 
+    public Integer getSalt() {
+        return salt;
+    }
+
+    public void setSalt(Integer salt) {
+        this.salt = salt;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "SysUser{" +
                 "id=" + id +
-                ", companyId=" + companyId +
                 ", loginName='" + loginName + '\'' +
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
@@ -50,30 +64,6 @@ public class SysUser {
                 ", qqNum='" + qqNum + '\'' +
                 ", salt=" + salt +
                 '}';
-    }
-
-    public Integer getSalt() {
-        return salt;
-    }
-
-    public void setSalt(Integer salt) {
-        this.salt = salt;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(Integer companyId) {
-        this.companyId = companyId;
     }
 
     public String getLoginName() {

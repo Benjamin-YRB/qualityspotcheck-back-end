@@ -11,6 +11,7 @@ public enum  RespCode implements IRespCode {
     SUCCESS("000000", "成功"),
     FAIL("100000", "失败"),
 
+    DATE_ERROR("100001","开始日期不能晚于结束日期"),
 
     FAIL_CHECK("100001", "参数校验失败"),
     FAIL_DEAL("100002", "业务处理失败"),

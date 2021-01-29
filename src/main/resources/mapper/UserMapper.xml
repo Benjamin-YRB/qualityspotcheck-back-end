@@ -6,7 +6,6 @@
 
     <sql id="baseColumn">
         u.id,
-        u.company_id,
         u.login_name,
         u.password,
         u.name,
