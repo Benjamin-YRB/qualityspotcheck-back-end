@@ -5,11 +5,15 @@ import com.focustar.qualityspotcheck.commom.exception.TokenException;
 import com.focustar.qualityspotcheck.commom.resp.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author: yangxiansheng
@@ -19,6 +23,23 @@ import javax.servlet.http.HttpServletRequest;
 @RestControllerAdvice
 public class ExceptionHandlerAdvice {
     public static final Logger logger = LoggerFactory.getLogger(ExceptionHandlerAdvice.class);
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Response<List<FieldFail>> methodArgumentNotValidException(MethodArgumentNotValidException e){
+        logger.info("参数校验异常"+e.getMessage());
+
+        List<FieldError> errors = e.getBindingResult().getFieldErrors();
+        List<FieldFail> res = new ArrayList<>();
+        for (int i = 0 ; i < errors.size() ; i++){
+            FieldError error = errors.get(i);
+            FieldFail ff = new FieldFail();
+            ff.setErrorMessage(error.getDefaultMessage());
+            ff.setField(error.getField());
+            ff.setValue(error.getRejectedValue());
+            res.add(ff);
+        }
+        return new Response<>(res,RespCode.FAIL_CHECK);
+    }
 
     @ExceptionHandler({Exception.class})
     public Response<Object> exceptionHandler(HttpServletRequest request, Exception e){

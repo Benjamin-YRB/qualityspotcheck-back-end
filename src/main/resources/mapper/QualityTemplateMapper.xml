@@ -4,6 +4,23 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.focustar.qualityspotcheck.mapper.QualityTemplateMapper">
 
+    <resultMap id="TemplateVO" type="com.focustar.qualityspotcheck.pojo.vo.TemplateVO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="begin_time" property="beginTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="pass_score" property="passScore"/>
+        <result column="is_average" property="isAverage"/>
+        <collection property="persons" ofType="java.lang.String">
+            <result column="person" property="value"/>
+        </collection>
+        <collection property="projects" column="project" ofType="java.lang.String">
+            <result column="project" property="value"/>
+        </collection>
+    </resultMap>
+
     <select id="getCheckNames" resultType="com.focustar.qualityspotcheck.pojo.vo.CheckPersonNamesVO">
         select distinct u.id,u.name
         from t_order o
@@ -12,7 +29,6 @@
         and o.del_flag = 0
         and u.del_flag = 0;
     </select>
-
 
     <select id="matchOrder" resultType="java.lang.Integer">
         select count(1)
@@ -23,4 +39,52 @@
         and u.del_flag = 0;
     </select>
 
+    <select id="getAllTemplates" resultMap="TemplateVO">
+        select t.id,t.name,su.name as creator,t.create_time,t.begin_time,t.end_time,t.pass_score,t.is_average, bp.name as project,su2.name as person
+        from quality_temp t
+                 inner join SYS_USER SU on t.create_by = SU.id
+                 inner join temp_user tu on t.id = tu.temp_id
+                 inner join sys_user su2 on su2.id = tu.user_id
+                 inner join temp_project tp on t.id = tp.temp_id
+                 inner join base_project bp on bp.id = tp.project_id
+        where t.del_flag = 0
+          and su.del_flag = 0
+    </select>
+
+    <select id="getTemplatesCreateByCurrentUser" resultMap="TemplateVO">
+        select t.id,t.name,su.name as creator,t.create_time,t.begin_time,t.end_time,t.pass_score,t.is_average, bp.name as project,su2.name as person
+        from quality_temp t
+                inner join SYS_USER SU on t.create_by = SU.id
+                inner join temp_user tu on t.id = tu.temp_id
+                inner join sys_user su2 on su2.id = tu.user_id
+                inner join temp_project tp on t.id = tp.temp_id
+                inner join base_project bp on bp.id = tp.project_id
+        where t.del_flag = 0
+            and su.del_flag = 0
+            and t.create_by = #{userId}
+    </select>
+
+    <insert id="addTempUserBatch" >
+        insert into temp_user(temp_id, user_id) values
+        <foreach collection="users" separator="," item="tempUser">
+            (#{tempUser.tempId},#{tempUser.userId})
+        </foreach>
+    </insert>
+
+    <insert id="addTempProjectBatch" >
+        insert into temp_project(temp_id, project_id) VALUES
+        <foreach collection="projects" separator="," item="tempProject">
+            (#{tempProject.tempId},#{tempProject.projectId})
+        </foreach>
+    </insert>
+
+    <update id="deleteTemplate" >
+        update quality_temp set del_flag = 1 , last_update_by = #{userId} , last_update_time = now() where id = #{id}
+    </update>
+
+    <select id="getTempOperator" resultType="com.focustar.qualityspotcheck.pojo.dto.TempOperatorDTO" >
+        select tu.user_id as id ,SU.name
+        from temp_user tu inner join SYS_USER SU on tu.user_id = SU.id
+        where tu.temp_id = #{id} and SU.del_flag = 0
+    </select>
 </mapper>

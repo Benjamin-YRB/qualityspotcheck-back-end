@@ -1,5 +1,10 @@
 package com.focustar.qualityspotcheck.pojo.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -7,14 +12,18 @@ import java.time.LocalDateTime;
  * @Since: 2021/1/28
  * description:
  */
+@TableName("quality_temp")
 public class QualityTemplate {
+
+    @TableId(type = IdType.AUTO)
     private Integer id ;
+
     /** 模板名称 */
     private String name ;
     /** 时间段—开始时间 */
-    private LocalDateTime beginTime ;
+    private LocalDate beginTime ;
     /** 时间段—结束时间 */
-    private LocalDateTime endTime ;
+    private LocalDate endTime ;
     /** 合格分数 */
     private Integer passScore ;
     /** 呼入次数—最小次数 */
@@ -60,19 +69,15 @@ public class QualityTemplate {
     /** 选择数量 */
     private Integer selectNum ;
     /** 是否平均，1=平均，0=不人均 */
-    private String isAverage ;
+    private Boolean isAverage ;
     /** 结单类型，字典：key_qsys_orderclose 1=结单，2=未结单 */
     private String closeOrderType ;
     /** 创建者 */
-    private String createBy ;
+    private Integer createBy ;
     /** 创建时间 */
     private LocalDateTime createTime ;
 
-    private Integer lastUpdateBy;
-    /** 最后修改时间 */
-    private LocalDateTime lastUpdateTime ;
-    /**  */
-    private String delFlag ;
+    private Integer checkPersonNum;
 
     @Override
     public String toString() {
@@ -103,15 +108,30 @@ public class QualityTemplate {
                 ", orderRescource='" + orderRescource + '\'' +
                 ", orderStatus='" + orderStatus + '\'' +
                 ", selectNum=" + selectNum +
-                ", isAverage='" + isAverage + '\'' +
+                ", isAverage=" + isAverage +
                 ", closeOrderType='" + closeOrderType + '\'' +
-                ", createBy='" + createBy + '\'' +
+                ", createBy=" + createBy +
                 ", createTime=" + createTime +
+                ", checkPersonNum=" + checkPersonNum +
                 ", lastUpdateBy=" + lastUpdateBy +
                 ", lastUpdateTime=" + lastUpdateTime +
-                ", delFlag='" + delFlag + '\'' +
+                ", delFlag=" + delFlag +
                 '}';
     }
+
+    public Integer getCheckPersonNum() {
+        return checkPersonNum;
+    }
+
+    public void setCheckPersonNum(Integer checkPersonNum) {
+        this.checkPersonNum = checkPersonNum;
+    }
+
+    private Integer lastUpdateBy;
+    /** 最后修改时间 */
+    private LocalDateTime lastUpdateTime ;
+    /**  */
+    private Boolean delFlag ;
 
     public Integer getId() {
         return id;
@@ -129,19 +149,19 @@ public class QualityTemplate {
         this.name = name;
     }
 
-    public LocalDateTime getBeginTime() {
+    public LocalDate getBeginTime() {
         return beginTime;
     }
 
-    public void setBeginTime(LocalDateTime beginTime) {
+    public void setBeginTime(LocalDate beginTime) {
         this.beginTime = beginTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public LocalDate getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(LocalDate endTime) {
         this.endTime = endTime;
     }
 
@@ -321,12 +341,12 @@ public class QualityTemplate {
         this.selectNum = selectNum;
     }
 
-    public String getIsAverage() {
+    public Boolean getAverage() {
         return isAverage;
     }
 
-    public void setIsAverage(String isAverage) {
-        this.isAverage = isAverage;
+    public void setAverage(Boolean average) {
+        isAverage = average;
     }
 
     public String getCloseOrderType() {
@@ -337,11 +357,11 @@ public class QualityTemplate {
         this.closeOrderType = closeOrderType;
     }
 
-    public String getCreateBy() {
+    public Integer getCreateBy() {
         return createBy;
     }
 
-    public void setCreateBy(String createBy) {
+    public void setCreateBy(Integer createBy) {
         this.createBy = createBy;
     }
 
@@ -369,11 +389,11 @@ public class QualityTemplate {
         this.lastUpdateTime = lastUpdateTime;
     }
 
-    public String getDelFlag() {
+    public Boolean getDelFlag() {
         return delFlag;
     }
 
-    public void setDelFlag(String delFlag) {
+    public void setDelFlag(Boolean delFlag) {
         this.delFlag = delFlag;
     }
 }
