@@ -2,10 +2,12 @@ package com.focustar.qualityspotcheck.service.impl;
 
 import com.focustar.qualityspotcheck.mapper.OrderMapper;
 import com.focustar.qualityspotcheck.mapper.QualityTemplateMapper;
+import com.focustar.qualityspotcheck.mapper.SpotCheckListMapper;
 import com.focustar.qualityspotcheck.mapper.SpotCheckMapper;
 import com.focustar.qualityspotcheck.pojo.dto.TempOperatorDTO;
 import com.focustar.qualityspotcheck.pojo.entity.*;
 import com.focustar.qualityspotcheck.pojo.req.AddQualityTemplateReq;
+import com.focustar.qualityspotcheck.pojo.req.GenerateSpotCheckListReq;
 import com.focustar.qualityspotcheck.pojo.req.MatchOrderReq;
 import com.focustar.qualityspotcheck.pojo.vo.*;
 import com.focustar.qualityspotcheck.service.QualityTemplateService;
@@ -41,6 +43,9 @@ public class QualityTemplateServiceImpl implements QualityTemplateService {
 
     @Autowired
     SpotCheckMapper spotCheckMapper;
+
+    @Autowired
+    SpotCheckListMapper spotCheckListMapper;
 
     @Override
     public List<CheckPersonNamesVO> getCheckNames(LocalDate start, LocalDate end) {
@@ -204,7 +209,7 @@ public class QualityTemplateServiceImpl implements QualityTemplateService {
 
             //分段随机抽取抽检工单
             int randNum = new Random().nextInt();//产生一个段落内的随机数
-            for (Integer i = 0; i < selectNum; i++) {
+            for (int i = 0; i < selectNum; i++) {
                 Order order = orders.get(randNum + (i * j));
                 //组建抽检工单表对象
                 SpotCheck spotCheck = orderCopyToSpotCheck(order,loginVO);
@@ -225,13 +230,32 @@ public class QualityTemplateServiceImpl implements QualityTemplateService {
         }
         vo.setNum(selectNum);//设置当前匹配成功的工单数量
         vo.setCheckVOS(spotCheckVOS);
-
+        vo.setTempId(id);
         return vo;
+    }
+
+    @Transactional
+    @Override
+    public boolean generateSpotCheckList(GenerateSpotCheckListReq req, LoginVO loginVO) {
+        SpotCheckList spotCheckList = new SpotCheckList(req.getTempId(),loginVO.getUser().getId(), LocalDateTime.now(),loginVO.getUser().getId(), LocalDateTime.now(),false);
+
+        spotCheckListMapper.insert(spotCheckList);//插入之后获取主键
+
+        List<SpotCheck> spotChecks = spotCheckMapper.getByIds(req.getSpotIds());
+
+        for (SpotCheck spotCheck : spotChecks) {//循环遍历更新，还有可优化空间
+            spotCheck.setSpotCheckListId(spotCheckList.getId());
+            spotCheckMapper.updateById(spotCheck);
+        }
+
+        return true;
     }
 
     /**
      * 抽取复制属性
      * @param order
+     * @param loginVO
+     * @return
      */
     private SpotCheck orderCopyToSpotCheck(Order order,LoginVO loginVO) {
         SpotCheck spotCheck = new SpotCheck();

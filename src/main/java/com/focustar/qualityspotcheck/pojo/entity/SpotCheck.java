@@ -85,6 +85,10 @@ public class SpotCheck implements Serializable,Cloneable {
      */
     private String recordPath;
     /**
+     * 抽检列表id，若该抽检工单被选中生成抽检列表才有值
+     */
+    private Integer spotCheckListId;
+    /**
      *
      */
     private Integer createBy;

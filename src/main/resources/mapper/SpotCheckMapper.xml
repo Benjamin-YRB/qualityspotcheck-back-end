@@ -12,4 +12,11 @@
         </foreach>
     </insert>
 
+    <select id="getByIds" resultType="com.focustar.qualityspotcheck.pojo.entity.SpotCheck">
+        select * from spot_check where del_flag = 0 and id in (
+            <foreach collection="ids" separator="," item="item">
+                #{item.value}
+            </foreach>
+            )
+    </select>
 </mapper>

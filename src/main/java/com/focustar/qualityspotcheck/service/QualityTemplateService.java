@@ -1,6 +1,7 @@
 package com.focustar.qualityspotcheck.service;
 
 import com.focustar.qualityspotcheck.pojo.req.AddQualityTemplateReq;
+import com.focustar.qualityspotcheck.pojo.req.GenerateSpotCheckListReq;
 import com.focustar.qualityspotcheck.pojo.req.MatchOrderReq;
 import com.focustar.qualityspotcheck.pojo.vo.*;
 
@@ -24,4 +25,6 @@ public interface QualityTemplateService {
     boolean deleteTemplate(Integer id,LoginVO loginVO);
 
     UseTemplateResultVO useTemplate(Integer id, LoginVO loginVO);
+
+    boolean generateSpotCheckList(GenerateSpotCheckListReq req,LoginVO loginVO);
 }

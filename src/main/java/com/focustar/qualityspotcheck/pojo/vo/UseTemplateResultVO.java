@@ -14,5 +14,5 @@ public class UseTemplateResultVO {
     private Integer total;
     private Integer num;
     private List<SpotCheckVO> checkVOS;
-
+    private Integer tempId;
 }

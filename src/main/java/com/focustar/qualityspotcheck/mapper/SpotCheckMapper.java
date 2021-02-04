@@ -16,4 +16,5 @@ public interface SpotCheckMapper extends BaseMapper<SpotCheck> {
 
     void addSpotCheckBatch(List<SpotCheck> spotChecks);
 
+    List<SpotCheck> getByIds(List<Integer> ids);
 }

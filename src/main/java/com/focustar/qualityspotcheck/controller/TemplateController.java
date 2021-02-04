@@ -5,6 +5,7 @@ import com.focustar.qualityspotcheck.commom.resp.Response;
 import com.focustar.qualityspotcheck.commom.util.RedisUtil;
 import com.focustar.qualityspotcheck.controller.base.BaseController;
 import com.focustar.qualityspotcheck.pojo.req.AddQualityTemplateReq;
+import com.focustar.qualityspotcheck.pojo.req.GenerateSpotCheckListReq;
 import com.focustar.qualityspotcheck.pojo.req.MatchOrderReq;
 import com.focustar.qualityspotcheck.pojo.vo.*;
 import com.focustar.qualityspotcheck.service.QualityTemplateService;
@@ -76,5 +77,16 @@ public class TemplateController extends BaseController {
         logger.info("使用id为"+id+"的模板生成抽检工单");
 
         return new Response<>(qualityTemplateService.useTemplate(id,(LoginVO) RedisUtil.getRedis(redisTemplate,RedisUtil.LOGIN_TOKEN_KEY+request.getHeader("token"))),RespCode.SUCCESS);
+    }
+
+    /**
+     * 使用模板之后生成抽检列表
+     * @return
+     */
+    @PostMapping("spotCheckList")
+    public Response<Boolean> generateSpotCheckList(@RequestBody @Valid GenerateSpotCheckListReq req){
+        logger.info("生成模板id为"+req.getTempId()+"，抽检工单id为："+req.getSpotIds()+"的抽检列表");
+
+        return new Response<>(qualityTemplateService.generateSpotCheckList(req,(LoginVO) RedisUtil.getRedis(redisTemplate,RedisUtil.LOGIN_TOKEN_KEY+request.getHeader("token"))),RespCode.SUCCESS);
     }
 }
