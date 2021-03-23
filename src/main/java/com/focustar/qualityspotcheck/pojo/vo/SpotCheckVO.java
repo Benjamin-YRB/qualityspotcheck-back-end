@@ -1,6 +1,7 @@
 package com.focustar.qualityspotcheck.pojo.vo;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -15,7 +16,10 @@ public class SpotCheckVO {
     private String comeFrom;
     private String callingNo;
     private String agentName;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime ringTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime acceptTime;
 }

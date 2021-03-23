@@ -2,6 +2,8 @@ package com.focustar.qualityspotcheck.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.focustar.qualityspotcheck.pojo.entity.SpotCheck;
+import com.focustar.qualityspotcheck.pojo.req.SpotCheckRemarkReq;
+import com.focustar.qualityspotcheck.pojo.vo.SpotCheckExVO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -17,4 +19,13 @@ public interface SpotCheckMapper extends BaseMapper<SpotCheck> {
     void addSpotCheckBatch(List<SpotCheck> spotChecks);
 
     List<SpotCheck> getByIds(List<Integer> ids);
+
+    /**
+     * 根据列表id获取抽检时抽检工单视图对象
+     * @param id
+     * @return
+     */
+    List<SpotCheckExVO> getByListId(Integer id);
+
+    int updateRemarks(SpotCheckRemarkReq req);
 }

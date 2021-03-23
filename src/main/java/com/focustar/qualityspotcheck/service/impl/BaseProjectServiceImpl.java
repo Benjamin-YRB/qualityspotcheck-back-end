@@ -5,6 +5,7 @@ import com.focustar.qualityspotcheck.pojo.entity.BaseProject;
 import com.focustar.qualityspotcheck.pojo.req.AddProjectReq;
 import com.focustar.qualityspotcheck.pojo.req.UpdateProjectReq;
 import com.focustar.qualityspotcheck.pojo.vo.BaseProjectVO;
+import com.focustar.qualityspotcheck.pojo.vo.SpotCheckProjectVO;
 import com.focustar.qualityspotcheck.service.BaseProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,5 +60,11 @@ public class BaseProjectServiceImpl implements BaseProjectService {
         p.setUpdateTime(LocalDateTime.now());
 
         return baseProjectMapper.updateById(p) > 0;
+    }
+
+    @Override
+    public List<SpotCheckProjectVO> getProjectsByCheckOrderId(Integer id) {
+
+        return baseProjectMapper.getByCheckOrderId(id);
     }
 }

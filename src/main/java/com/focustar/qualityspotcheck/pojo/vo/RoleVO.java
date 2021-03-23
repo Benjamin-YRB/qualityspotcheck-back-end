@@ -52,4 +52,5 @@ public class RoleVO {
     public void setPriority(Integer priority) {
         this.priority = priority;
     }
+
 }

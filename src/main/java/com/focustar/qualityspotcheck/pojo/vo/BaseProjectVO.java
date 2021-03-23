@@ -1,5 +1,7 @@
 package com.focustar.qualityspotcheck.pojo.vo;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,6 +16,8 @@ public class BaseProjectVO {
     private String name;
     private Integer level;
     private Integer score;
+
+    @DateTimeFormat(pattern = "yyyy-Mm-dd")
     private LocalDateTime createTime;
 
     public LocalDateTime getCreateTime() {

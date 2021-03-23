@@ -16,6 +16,7 @@ public class SpotCheckList {
 
     @TableId(type = IdType.AUTO)
     private Integer id;
+    private String name;
     private Integer tempId;
     private Integer createBy;
     private LocalDateTime createTime;

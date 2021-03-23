@@ -3,6 +3,7 @@ package com.focustar.qualityspotcheck.service;
 import com.focustar.qualityspotcheck.pojo.req.AddProjectReq;
 import com.focustar.qualityspotcheck.pojo.req.UpdateProjectReq;
 import com.focustar.qualityspotcheck.pojo.vo.BaseProjectVO;
+import com.focustar.qualityspotcheck.pojo.vo.SpotCheckProjectVO;
 
 import java.util.List;
 
@@ -19,4 +20,7 @@ public interface BaseProjectService {
     boolean deleteProject(Integer userId, Integer id);
 
     boolean updateProject(Integer userId, UpdateProjectReq req);
+
+
+    List<SpotCheckProjectVO> getProjectsByCheckOrderId(Integer id);
 }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.focustar.qualityspotcheck.pojo.entity.BaseProject;
 import com.focustar.qualityspotcheck.pojo.req.AddProjectReq;
 import com.focustar.qualityspotcheck.pojo.vo.BaseProjectVO;
+import com.focustar.qualityspotcheck.pojo.vo.SpotCheckProjectVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -18,5 +19,6 @@ public interface BaseProjectMapper extends BaseMapper<BaseProject> {
 
     boolean deleteProject(@Param("userId") Integer userId,@Param("projectId") Integer projectId);
 
+    List<SpotCheckProjectVO> getByCheckOrderId(Integer id);
 
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.focustar.qualityspotcheck.mapper.SpotCheckListMapper">
+
+    <select id="getAllSpotCheckListVO" resultType="com.focustar.qualityspotcheck.pojo.vo.SpotCheckListVO">
+        select scl.id,scl.name,su.name as operator ,scl.create_time , qt.begin_time,qt.end_time,scl.status
+        from spot_check_list scl inner join sys_user su on scl.create_by = su.id
+        inner join quality_temp qt on scl.temp_id = qt.id
+        where scl.del_flag = 0 and su.del_flag = 0 and qt.del_flag = 0
+    </select>
+
+    <select id="getSpotCheckListVOsByCreatorId" resultType="com.focustar.qualityspotcheck.pojo.vo.SpotCheckListVO">
+        select scl.id,scl.name,su.name as operator ,scl.create_time , qt.begin_time,qt.end_time,scl.status
+        from
+        spot_check_list scl inner join sys_user su on scl.create_by = su.id
+        inner join quality_temp qt on scl.temp_id = qt.id
+        where scl.del_flag = 0 and su.del_flag = 0 and qt.del_flag = 0 and scl.create_by = #{id}
+    </select>
+
+</mapper>

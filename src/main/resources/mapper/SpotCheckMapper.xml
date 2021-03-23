@@ -11,12 +11,19 @@
             (#{item.orderId},#{item.agentId},#{item.agentName},#{item.callingNo},#{item.qualityStatus},#{item.ringTime},#{item.acceptTime},#{item.endTime},#{item.recordPath},#{item.createBy},#{item.createTime},#{item.updateBy},#{item.updateTime},#{item.delFlag})
         </foreach>
     </insert>
+    <update id="updateRemarks" parameterType="com.focustar.qualityspotcheck.pojo.req.SpotCheckRemarkReq">
+        update spot_check set remarks = #{remark} ,is_remark = 1 where id = #{id}
+    </update>
 
     <select id="getByIds" resultType="com.focustar.qualityspotcheck.pojo.entity.SpotCheck">
         select * from spot_check where del_flag = 0 and id in (
             <foreach collection="ids" separator="," item="item">
-                #{item.value}
+                #{item}
             </foreach>
             )
+    </select>
+
+    <select id="getByListId" resultType="com.focustar.qualityspotcheck.pojo.vo.SpotCheckExVO">
+        select sc.id,o.come_from,sc.calling_no,sc.agent_name,o.create_time,sc.record_path,sc.is_remark,sc.remarks from spot_check sc inner join t_order o on sc.order_id = o.id where sc.spot_check_list_id = #{id} and sc.del_flag = 0
     </select>
 </mapper>

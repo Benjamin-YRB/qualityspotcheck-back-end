@@ -15,11 +15,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -208,7 +210,7 @@ public class QualityTemplateServiceImpl implements QualityTemplateService {
             int j = orders.size() / selectNum;
 
             //分段随机抽取抽检工单
-            int randNum = new Random().nextInt();//产生一个段落内的随机数
+            int randNum = new Random().nextInt(j);//产生一个段落内的随机数
             for (int i = 0; i < selectNum; i++) {
                 Order order = orders.get(randNum + (i * j));
                 //组建抽检工单表对象
@@ -237,8 +239,11 @@ public class QualityTemplateServiceImpl implements QualityTemplateService {
     @Transactional
     @Override
     public boolean generateSpotCheckList(GenerateSpotCheckListReq req, LoginVO loginVO) {
+        QualityTemplate qualityTemplate = qualityTemplateMapper.selectById(req.getTempId());
         SpotCheckList spotCheckList = new SpotCheckList(req.getTempId(),loginVO.getUser().getId(), LocalDateTime.now(),loginVO.getUser().getId(), LocalDateTime.now(),false);
 
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        spotCheckList.setName("「" +qualityTemplate.getName()+"」「"+ loginVO.getUser().getName() +"」「"+ dateTimeFormatter.format(LocalDateTime.now())+"」");//设置抽检列表名称
         spotCheckListMapper.insert(spotCheckList);//插入之后获取主键
 
         List<SpotCheck> spotChecks = spotCheckMapper.getByIds(req.getSpotIds());
