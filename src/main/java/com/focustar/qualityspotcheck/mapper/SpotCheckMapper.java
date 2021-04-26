@@ -2,7 +2,9 @@ package com.focustar.qualityspotcheck.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.focustar.qualityspotcheck.pojo.entity.SpotCheck;
+import com.focustar.qualityspotcheck.pojo.entity.SpotCheckProjectScore;
 import com.focustar.qualityspotcheck.pojo.req.SpotCheckRemarkReq;
+import com.focustar.qualityspotcheck.pojo.req.SubmitSpotCheckReq;
 import com.focustar.qualityspotcheck.pojo.vo.SpotCheckExVO;
 import org.springframework.stereotype.Component;
 
@@ -28,4 +30,12 @@ public interface SpotCheckMapper extends BaseMapper<SpotCheck> {
     List<SpotCheckExVO> getByListId(Integer id);
 
     int updateRemarks(SpotCheckRemarkReq req);
+
+    void batchInsertCheckProjectScore(List<SpotCheckProjectScore> list);
+
+    Integer getPassScoreBySpotCheckId(Integer id);
+
+    Integer submitSpotCheck(SubmitSpotCheckReq req);
+
+    Integer updateStatusToCheckComplete(Integer id);
 }

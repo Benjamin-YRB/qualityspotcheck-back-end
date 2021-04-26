@@ -14,4 +14,5 @@ public class SpotCheckProjectVO {
     private String name;
     private Integer score;
     private Integer level;
+    private boolean pass;
 }

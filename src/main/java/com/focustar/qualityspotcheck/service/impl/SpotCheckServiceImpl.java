@@ -2,7 +2,9 @@ package com.focustar.qualityspotcheck.service.impl;
 
 import com.focustar.qualityspotcheck.mapper.SpotCheckListMapper;
 import com.focustar.qualityspotcheck.mapper.SpotCheckMapper;
+import com.focustar.qualityspotcheck.pojo.entity.SpotCheckProjectScore;
 import com.focustar.qualityspotcheck.pojo.req.SpotCheckRemarkReq;
+import com.focustar.qualityspotcheck.pojo.req.SubmitSpotCheckReq;
 import com.focustar.qualityspotcheck.pojo.vo.LoginVO;
 import com.focustar.qualityspotcheck.pojo.vo.RoleVO;
 import com.focustar.qualityspotcheck.pojo.vo.SpotCheckExVO;
@@ -60,6 +62,28 @@ public class SpotCheckServiceImpl implements SpotCheckService {
     public int updateRemark(SpotCheckRemarkReq req) {
 
         return spotCheckMapper.updateRemarks(req);
+    }
+
+    @Override
+    public void batchAddCheckProject(List<SpotCheckProjectScore> list) {
+
+    }
+
+    @Override
+    public Integer getPassScoreBySpotCheckId(Integer id) {
+        return spotCheckMapper.getPassScoreBySpotCheckId(id);
+    }
+
+    @Override
+    public Boolean submit(List<SubmitSpotCheckReq> list) {
+        //批量更新该抽检工单的抽检项目
+        for (SubmitSpotCheckReq submitSpotCheckReq : list) {
+            spotCheckMapper.submitSpotCheck(submitSpotCheckReq);
+        }
+        //将该条抽检工单的状态置为已质检
+        SubmitSpotCheckReq submitSpotCheckReq = list.get(0);
+        spotCheckMapper.updateStatusToCheckComplete(submitSpotCheckReq.getId());
+        return true;
     }
 
 }

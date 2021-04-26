@@ -29,7 +29,8 @@
 
     <select id="getByCheckOrderId" resultType="com.focustar.qualityspotcheck.pojo.vo.SpotCheckProjectVO">
         select sc.id,bp2.name as parentName, bp.name,bp.score,bp.level
-        from spot_check sc inner join spot_check_list scl on sc.spot_check_list_id = scl.id
+        from spot_check sc
+            inner join spot_check_list scl on sc.spot_check_list_id = scl.id
             inner join quality_temp qt on scl.temp_id = qt.id
             inner join temp_project tp on tp.temp_id = qt.id
             inner join base_project bp on tp.project_id = bp.id
@@ -39,7 +40,11 @@
                 and qt.del_flag = 0
                 and bp.del_flag = 0
                 and bp2.del_flag = 0
-                and sc.id = #{ida}
+                and sc.id = #{id}
+    </select>
+
+    <select id="getDetailByCheckOrderId" resultType="com.focustar.qualityspotcheck.pojo.vo.SpotCheckProjectVO">
+        select * from spot_check_project_score where spot_check_id = #{id} and del_flag = 0
     </select>
 
     <update id="deleteProject" >

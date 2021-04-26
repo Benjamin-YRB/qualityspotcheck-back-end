@@ -1,9 +1,6 @@
 package com.focustar.qualityspotcheck.service.impl;
 
-import com.focustar.qualityspotcheck.mapper.OrderMapper;
-import com.focustar.qualityspotcheck.mapper.QualityTemplateMapper;
-import com.focustar.qualityspotcheck.mapper.SpotCheckListMapper;
-import com.focustar.qualityspotcheck.mapper.SpotCheckMapper;
+import com.focustar.qualityspotcheck.mapper.*;
 import com.focustar.qualityspotcheck.pojo.dto.TempOperatorDTO;
 import com.focustar.qualityspotcheck.pojo.entity.*;
 import com.focustar.qualityspotcheck.pojo.req.AddQualityTemplateReq;
@@ -48,6 +45,9 @@ public class QualityTemplateServiceImpl implements QualityTemplateService {
 
     @Autowired
     SpotCheckListMapper spotCheckListMapper;
+
+    @Autowired
+    BaseProjectMapper baseProjectMapper;
 
     @Override
     public List<CheckPersonNamesVO> getCheckNames(LocalDate start, LocalDate end) {
@@ -247,12 +247,22 @@ public class QualityTemplateServiceImpl implements QualityTemplateService {
         spotCheckListMapper.insert(spotCheckList);//插入之后获取主键
 
         List<SpotCheck> spotChecks = spotCheckMapper.getByIds(req.getSpotIds());
-
-        for (SpotCheck spotCheck : spotChecks) {//循环遍历更新，还有可优化空间
+        for (SpotCheck spotCheck : spotChecks) {//循环遍历更新抽检工单，指向抽检列表，还有可优化空间
             spotCheck.setSpotCheckListId(spotCheckList.getId());
             spotCheckMapper.updateById(spotCheck);
-        }
 
+            List<SpotCheckProjectVO> byCheckOrderId = baseProjectMapper.getByCheckOrderId(spotCheck.getId());
+
+            List<SpotCheckProjectScore> list = new ArrayList<>();
+            for (SpotCheckProjectVO spotCheckProjectVO : byCheckOrderId) {
+                SpotCheckProjectScore spotCheckProjectScore = new SpotCheckProjectScore();
+                BeanUtils.copyProperties(spotCheckProjectVO,spotCheckProjectScore);
+                spotCheckProjectScore.setSpotCheckId(spotCheck.getId());
+                list.add(spotCheckProjectScore);
+            }
+            //批量插入抽检工单基础项得分详情，以供后续步骤抽检设置得分
+            spotCheckMapper.batchInsertCheckProjectScore(list);
+        }
         return true;
     }
 

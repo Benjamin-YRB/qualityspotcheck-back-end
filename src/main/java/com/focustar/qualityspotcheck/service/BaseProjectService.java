@@ -21,6 +21,9 @@ public interface BaseProjectService {
 
     boolean updateProject(Integer userId, UpdateProjectReq req);
 
-
+    //修改为生成抽检工单时获取详情
     List<SpotCheckProjectVO> getProjectsByCheckOrderId(Integer id);
+
+    //抽检界面返回
+    List<SpotCheckProjectVO> getProjectsDetailByCheckOrderId(Integer id);
 }

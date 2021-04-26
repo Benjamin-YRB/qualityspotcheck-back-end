@@ -37,9 +37,7 @@ public class BaseProjectController extends BaseController {
 
     @GetMapping("/baseProjects")
     public Response<List<BaseProjectVO>> getAllBaseProject(){
-
         logger.info("开始获取所有基础项");
-
         return new Response<>(baseProjectService.getAllBaseProjects(), RespCode.SUCCESS);
     }
 

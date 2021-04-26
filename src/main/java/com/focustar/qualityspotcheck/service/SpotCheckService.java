@@ -1,6 +1,8 @@
 package com.focustar.qualityspotcheck.service;
 
+import com.focustar.qualityspotcheck.pojo.entity.SpotCheckProjectScore;
 import com.focustar.qualityspotcheck.pojo.req.SpotCheckRemarkReq;
+import com.focustar.qualityspotcheck.pojo.req.SubmitSpotCheckReq;
 import com.focustar.qualityspotcheck.pojo.vo.LoginVO;
 import com.focustar.qualityspotcheck.pojo.vo.SpotCheckExVO;
 import com.focustar.qualityspotcheck.pojo.vo.SpotCheckListVO;
@@ -19,4 +21,13 @@ public interface SpotCheckService {
 
     int updateRemark(SpotCheckRemarkReq req);
 
+    /**
+     * 批量插入抽检工单基础项目得分项
+     * @param list
+     */
+    void batchAddCheckProject(List<SpotCheckProjectScore> list);
+
+    Integer getPassScoreBySpotCheckId(Integer id);
+
+    Boolean submit(List<SubmitSpotCheckReq> list);
 }

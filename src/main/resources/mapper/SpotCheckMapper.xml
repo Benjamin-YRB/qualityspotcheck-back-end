@@ -11,8 +11,21 @@
             (#{item.orderId},#{item.agentId},#{item.agentName},#{item.callingNo},#{item.qualityStatus},#{item.ringTime},#{item.acceptTime},#{item.endTime},#{item.recordPath},#{item.createBy},#{item.createTime},#{item.updateBy},#{item.updateTime},#{item.delFlag})
         </foreach>
     </insert>
+    <insert id="batchInsertCheckProjectScore">
+        insert into spot_check_project_score (name, score, pass, spot_check_id, del_flag, level, parent_name)
+        value
+        <foreach collection="list" separator="," item="item">
+            (#{item.name},#{item.score},#{item.pass},#{item.spotCheckId},#{item.delFlag},#{item.level},#{item.parentName})
+        </foreach>
+    </insert>
     <update id="updateRemarks" parameterType="com.focustar.qualityspotcheck.pojo.req.SpotCheckRemarkReq">
         update spot_check set remarks = #{remark} ,is_remark = 1 where id = #{id}
+    </update>
+    <update id="submitSpotCheck">
+        update spot_check_project_score scps set pass = #{pass} where id = #{id}
+    </update>
+    <update id="updateStatusToCheckComplete">
+        update spot_check set quality_status = 1 where id = #{id}
     </update>
 
     <select id="getByIds" resultType="com.focustar.qualityspotcheck.pojo.entity.SpotCheck">
@@ -24,6 +37,14 @@
     </select>
 
     <select id="getByListId" resultType="com.focustar.qualityspotcheck.pojo.vo.SpotCheckExVO">
-        select sc.id,o.come_from,sc.calling_no,sc.agent_name,o.create_time,sc.record_path,sc.is_remark,sc.remarks from spot_check sc inner join t_order o on sc.order_id = o.id where sc.spot_check_list_id = #{id} and sc.del_flag = 0
+        select sc.id,o.come_from,sc.calling_no,sc.agent_name,o.create_time,sc.record_path,sc.is_remark,sc.remarks
+        from spot_check sc
+            inner join t_order o on sc.order_id = o.id
+        where sc.spot_check_list_id = #{id} and sc.del_flag = 0
+    </select>
+    <select id="getPassScoreBySpotCheckId" resultType="java.lang.Integer">
+        select qt.pass_score from spot_check sc
+            inner join  spot_check_list scl on sc.spot_check_list_id = scl.id
+            inner join quality_temp qt on scl.temp_id = qt.id where sc.id = #{id}
     </select>
 </mapper>

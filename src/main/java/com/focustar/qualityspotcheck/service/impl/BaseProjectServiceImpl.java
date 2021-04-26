@@ -67,4 +67,11 @@ public class BaseProjectServiceImpl implements BaseProjectService {
 
         return baseProjectMapper.getByCheckOrderId(id);
     }
+
+    @Override
+    public List<SpotCheckProjectVO> getProjectsDetailByCheckOrderId(Integer id) {
+
+        List<SpotCheckProjectVO> detailByCheckOrderId = baseProjectMapper.getDetailByCheckOrderId(id);
+        return detailByCheckOrderId;
+    }
 }

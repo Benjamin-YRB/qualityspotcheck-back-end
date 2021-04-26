@@ -21,4 +21,5 @@ public interface BaseProjectMapper extends BaseMapper<BaseProject> {
 
     List<SpotCheckProjectVO> getByCheckOrderId(Integer id);
 
+    List<SpotCheckProjectVO> getDetailByCheckOrderId(Integer id);
 }

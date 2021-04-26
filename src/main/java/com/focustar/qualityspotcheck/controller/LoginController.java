@@ -40,10 +40,8 @@ public class LoginController extends BaseController {
     RedisTemplate redisTemplate;
 
     @PostMapping("/login")
-    public Response<LoginVO> login(@RequestBody @Valid LoginReq loginReq/*@RequestParam("username") String loginName, @RequestParam("password") String password*/){
-
+    public Response<LoginVO> login(@RequestBody @Valid LoginReq loginReq){
         logger.info(loginReq.getLoginName());
-
         Subject currentUser = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(loginReq.getLoginName(),loginReq.getPassword());
         try {
@@ -51,17 +49,11 @@ public class LoginController extends BaseController {
         } catch (AuthenticationException e) {
             return new Response<>(LoginCode.LOGIN_FAIL);
         }
-
         LoginVO loginVO = userService.loginSuccessResult(loginReq.getLoginName());
-
-
         loginVO.setToken(UUID.randomUUID().toString());
-
         RedisUtil.setRedis(redisTemplate,RedisUtil.LOGIN_TOKEN_KEY+loginVO.getToken(),loginVO,RedisUtil.LOGIN_TOKEN_ALIVE_TIME, TimeUnit.DAYS);
-
         logger.info("缓存当前登陆用户信息成功:"+loginVO);
         logger.info("登陆成功，"+loginVO.getUser().getName());
-
         return new Response<>(loginVO, LoginCode.LOGIN_SUCCESS);
     }
 }
